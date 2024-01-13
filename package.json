@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node src/server.js"
-
   },
   "keywords": [
     "fullstack",
@@ -24,6 +23,11 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "mysql2": "^2.2.5",
     "nodemon": "2.0.7"
+  },
+  "devDependencies": {
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0"
   }
 }

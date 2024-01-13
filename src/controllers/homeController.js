@@ -1,7 +1,16 @@
+import db from "../models/index";
 
+let getHomePage = async (req, res) => {
+    try {
+        let data = await db.User.findAll();
+        return res.render('homepage.ejs', {
+            data: JSON.stringify(data)
+        });
 
-let getHomePage = (req, res) => {
-    return res.send('Hello Tyrant');
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 module.exports = {
