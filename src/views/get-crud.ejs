@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GET CRUD</title>
+
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    
+    .btn-add {
+      /* Thiết lập các thuộc tính cho nút Delete */
+      background-color: rgb(52, 171, 41);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-edit {
+        /* Thiết lập các thuộc tính cho nút Edit */
+        background-color: blue;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      
+      .btn-delete {
+        /* Thiết lập các thuộc tính cho nút Delete */
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+  </style>
+  <body>
+    <h2>Get CRUD From View</h2>
+    <table>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Phone number</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+      <% for(let i=0; i < dataTable.length; i++) { %>
+        <tr>
+          <td><%= dataTable[i].firstName %></td>
+          <td><%= dataTable[i].lastName %></td>
+          <!-- <td><%= dataTable[i].gender %></td> -->
+          <td>
+            <% if (dataTable[i].gender === 1) { %>
+              Male
+            <% } else if (dataTable[i].gender === 0) { %>
+              Female
+            <% } else { %>
+              <%= dataTable[i].gender %>
+            <% } %>
+          </td>
+          <td><%= dataTable[i].address %></td>
+          <td><%= dataTable[i].phoneNumber %></td>
+          <td><%= dataTable[i].email %></td>
+          <td>
+              <a href="/create-crud" class="btn-add" type="button">Add</a>
+              <a href="/edit-crud?id=<%= dataTable[i].id %>" class="btn-edit" type="button">Edit</a>
+              <a href="/delete-crud?id=<%= dataTable[i].id %>" class="btn-delete" type="button">Delete</a>
+          </td>
+        </tr>
+     <% } %>
+    </table>
+  </body>
+</html>
