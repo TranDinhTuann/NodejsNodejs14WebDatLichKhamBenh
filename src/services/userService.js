@@ -77,7 +77,6 @@ let getAllUsers = (userId) => {
                 })
             }
             resolve(users)
-            console.log(users);
         } catch (e) {
             reject(e);
         }
