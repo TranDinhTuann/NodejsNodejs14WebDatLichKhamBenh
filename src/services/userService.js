@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 
@@ -97,9 +98,18 @@ let getAllUsers = (userId) => {
     } )    
 }
 
-let createNewUsers = (data) => {
+let createNewUser = (data) => {
     return new Promise( async (resolve, reject) => {
         try {
+            // check email is exist ???
+            let check = await checkUserEmail(data.email);
+            if(check === true){
+                resolve({
+                    errCode: 1,
+                    message: 'Your email is already in used, Please try another email!'
+                });
+            }
+
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
                 email: data.email,
@@ -109,9 +119,7 @@ let createNewUsers = (data) => {
                 address: data.address,
                 phoneNumber: data.phoneNumber,
                 gender: data.gender === '1' ? true : false,
-                // image: DataTypes.STRING, // vì mình không tạo input
                 roleId: data.roleId,
-                // positionId: DataTypes.STRING,
             })
             resolve({
                 errCode: 0,
@@ -122,8 +130,36 @@ let createNewUsers = (data) => {
         }
     })
 }
+
+let deleteUser = (userId) => {
+    return new Promise (async (resolve, reject) => {
+        let foundUser = await db.User.findOne({
+            where: {id: userId}
+        })
+        if(!foundUser){
+            resolve({
+                errCode: 2,
+                errMessage: `The user isn't exist`
+            })
+        }
+        console.log('Tuan check ', foundUser);
+
+        await db.user.destroy({
+            where: {id: userId}
+        })
+    
+
+        resolve({
+            errCode: 0,
+            errMessage: `The user is deleted `
+        })
+    })
+}
+
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
-    createNewUsers: createNewUsers,
+    createNewUser: createNewUser,
+    deleteUser: deleteUser,
 }
