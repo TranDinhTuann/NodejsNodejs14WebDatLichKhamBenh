@@ -142,7 +142,6 @@ let deleteUser = (userId) => {
                 errMessage: `The user isn't exist`
             })
         }
-        console.log('Tuan check ', foundUser);
 
         await db.user.destroy({
             where: {id: userId}
@@ -156,10 +155,50 @@ let deleteUser = (userId) => {
     })
 }
 
+let updateUserData = (data) => {
+    return new Promise( async (resolve,reject) => {
+        try {
+            if(!data.id){
+                resolve({
+                    errCode: 2,
+                    errMessage: 'Missing required parameter'
+                })
+            }
+            let user = await db.User.findOne({
+                where: {id: data.id},
+                raw: false
+            })
+            if(user){
+                user.firstName = data.firstName;
+                user.lastName = data.lastName;
+                user.address = data.address;
+
+                await user.save();
+                // await db.User.save({
+                //     firstName: data.firstName,
+                //     lastName: data.lastName,
+                //     address: data.address,
+                // }), {where: {id: userId}}
+                resolve({
+                    errCode: 0,
+                    message: 'Update the user success !'
+                });
+            }else{
+                resolve({
+                    errCode: 1,
+                    message: `User's not found`
+                });
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     deleteUser: deleteUser,
+    updateUserData: updateUserData,
 }
